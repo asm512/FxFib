@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 namespace FxFibonacci
 {
@@ -10,7 +9,7 @@ namespace FxFibonacci
         private int _dPlaces;
         private bool _inverseDir = false;
 
-        private static readonly List<double> _stdSeq = new List<double>()
+        private static readonly double[] _stdSeq =
         {
             23.6,
             38.2,
@@ -19,7 +18,7 @@ namespace FxFibonacci
             78.6
         };
 
-        public readonly List<double> StandardSequence;
+        public readonly double[] StandardSequence;
 
         public FxFib(double _anc0, double _anc1, bool _calculateDefSeq = false, int _decimalPlaces = -1)
         {
@@ -28,7 +27,7 @@ namespace FxFibonacci
             if (_decimalPlaces != -1) { this._dPlaces = _decimalPlaces; }
             else { this._dPlaces = BitConverter.GetBytes(decimal.GetBits(Convert.ToDecimal(_anc0))[3])[2]; }
             if (_anc1 < _anc0) { _inverseDir = true; }
-            if (_calculateDefSeq) { StandardSequence = new List<double>(); StandardSequence = Calculate(_stdSeq); }
+            if (_calculateDefSeq) { StandardSequence = Calculate(_stdSeq); }
         }
 
         public double Calculate(double _fibLevel)
@@ -36,10 +35,13 @@ namespace FxFibonacci
             return _cPercentage(_fibLevel);
         }
 
-        public List<double> Calculate(List<double> _fibLevels)
+        public double[] Calculate(double[] _fibLevels)
         {
-            var _calculatedLevels = new List<double>();
-            foreach (var _lvl in _fibLevels) { _calculatedLevels.Add(_lvl); _calculatedLevels.Add(_cPercentage(_lvl)); }
+            var _calculatedLevels = new double[_fibLevels.Length];
+            for (int i = 0; i < _fibLevels.Length; i++)
+            {
+                _calculatedLevels[i] = _cPercentage(_fibLevels[i]);
+            }
             return _calculatedLevels;
         }
 
